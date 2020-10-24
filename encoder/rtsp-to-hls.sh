@@ -1,9 +1,11 @@
 #!/bin/sh
 
-[ $# -eq 0 ] && { echo "Usage: $0 rtsp://... <name>"; exit 1; }
+# Original Script came from https://github.com/w23/zenki
+
+[ $# -lt 2 ] && { echo "Usage: $0 rtsp://... <name>"; exit 1; }
 
 SOURCE="$1"
-NAME=${2:-cctv}
+NAME=$2
 #ARCHIVE=${ARCHIVE:-archive}
 
 HLS_TIME=${HLS_TIME:-5}

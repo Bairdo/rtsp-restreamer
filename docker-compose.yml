@@ -13,7 +13,8 @@ services:
             - "ch4:/www/hls/ch4"
             - "./webserver/www-root:/www/"
         ports:
-            - "8000:8000"
+            - "${HTTP_PORT}:8000"
+        restart: unless-stopped
 
     encoder_ch1:
         build:
@@ -21,28 +22,36 @@ services:
             dockerfile: Dockerfile
         volumes:
             - "ch1:/rtsp/hls/"
-        command: rtsp://${RTSP_USERNAME}:${RTSP_PASSWORD}@${RTSP_IP}:${RTSP_PORT}/ch1/0 ch1
+        command: ${RTSP_URL}/ch1/0 ch1
+        restart: unless-stopped
+    
     encoder_ch2:
         build:
             context: ./encoder
             dockerfile: Dockerfile
         volumes:
             - "ch2:/rtsp/hls/"
-        command: rtsp://${RTSP_USERNAME}:${RTSP_PASSWORD}@${RTSP_IP}:${RTSP_PORT}/ch2/0 ch2
+        command: ${RTSP_URL}/ch2/0 ch2
+        restart: unless-stopped
+    
     encoder_ch3:
         build:
             context: ./encoder
             dockerfile: Dockerfile
         volumes:
             - "ch3:/rtsp/hls/"
-        command: rtsp://${RTSP_USERNAME}:${RTSP_PASSWORD}@${RTSP_IP}:${RTSP_PORT}/ch3/0 ch3
+        command: ${RTSP_URL}/ch3/0 ch3
+        restart: unless-stopped
+    
     encoder_ch4:
         build:
             context: ./encoder
             dockerfile: Dockerfile
         volumes:
             - "ch4:/rtsp/hls/"
-        command: rtsp://${RTSP_USERNAME}:${RTSP_PASSWORD}@${RTSP_IP}:${RTSP_PORT}/ch4/0 ch4
+        command: ${RTSP_URL}/ch4/0 ch4
+        restart: unless-stopped
+
 volumes:
     ch1:
     ch2:
