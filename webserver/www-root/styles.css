@@ -1,0 +1,22 @@
+.channel-select {
+	font-size: 25px;
+}
+.channel-select {
+	display: inline-block;
+}
+
+div:not(:last-child) {
+	margin-right:40px;
+}
+
+.active {
+	font-weight: bold;
+}
+
+.hide {
+	display: none;
+}
+
+.video-js {
+	max-width: 95%;
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- Somehow stop the encoding if no one is streaming currently. (check the file access/requests on the webserver)-->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+		<script src="jquery-3.5.1.min.js"></script>
+		<link rel="stylesheet" href="styles.css">
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				  $(".channel-select").on("click", function(){
+					      $(this).addClass("active");
+					      $(this).siblings().removeClass("active");
+                 			console.log($("main-video"));
+							id = $(this).attr('id');
+							console.log(id);
+							var quadplayers = [videojs("ul-video"), videojs("ur-video"),
+					                           videojs("ll-video"), videojs("lr-video")];
+							var p;
+					  		if (id == "all"){
+								console.log("hide");
+								$("#singlebox").addClass("hide");
+								$("#quadbox").removeClass("hide");
+								
+
+
+								for (p of quadplayers) {
+					  				p.play();
+								  }
+							} else {
+								$("#singlebox").removeClass("hide");
+								$("#quadbox").addClass("hide")
+  							  var player = videojs("main-video");
+							  player.src({src: 'hls/' + id + "/" + id + ".m3u8", type: "application/x-mpegURL"});
+							  player.play();
+								for (p of quadplayers) {
+									p.pause();
+								}
+							}
+							
+					     });
+			});
+		</script>
+		<!-- use video.js instead along with chromecast plugin-->
+	</head>
+	<body>
+		<div><h1>Home Security Cameras</h1></div>
+		<div class="menu">
+			<div id="all" class="channel-select"><a href="#.">All Cameras</a></div>
+			<div id="ch1" class="channel-select active"><a href="#.">Inside Garage</a></div>
+			<div id="ch2" class="channel-select"><a href="#.">Lower Driveway</a></div>
+			<div id="ch3" class="channel-select"><a href="#.">Inside Garage</a></div>
+			<div id="ch4" class="channel-select"><a href="#.">Front Porch</a></div>
+		</div>
+
+
+		<div id="singlebox">
+			<video
+				id="main-video"
+				class="video-js"
+				controls
+				preload="auto"
+				width="1700"
+
+				poster="MY_VIDEO_POSTER.jpg"
+				data-setup="{}">
+				<source src="hls/ch1/ch1.m3u8" type="application/x-mpegURL" />
+				<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+				</p>
+			</video>
+		</div>
+<!-- -------------------------------------------------------------------------------------->
+		<div id="quadbox" class="hide">
+			<div id="upperleft" class="quad">
+				<video
+				id="ul-video"
+				class="video-js"
+				controls
+				preload="auto"
+				width="500"
+				poster="MY_VIDEO_POSTER.jpg"
+				data-setup="{}">
+					<source src="hls/ch1/ch1.m3u8" type="application/x-mpegURL" />
+					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+				</video>
+			</div>
+			<div id="upperright" class="quad">
+				<video
+				id="ur-video"
+				class="video-js"
+				controls
+				preload="auto"
+				width="500"
+				poster="MY_VIDEO_POSTER.jpg"
+				data-setup="{}">
+					<source src="hls/ch2/ch2.m3u8" type="application/x-mpegURL" />
+					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+				</video>
+			</div>
+			<div id="lowerleft" class="quad">
+				<video
+				id="ll-video"
+				class="video-js"
+				controls
+				preload="auto"
+				width="500"
+
+				poster="MY_VIDEO_POSTER.jpg"
+				data-setup="{}">
+					<source src="hls/ch3/ch3.m3u8" type="application/x-mpegURL" />
+					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+				</video>
+			</div>
+			<div id="lowerright" class="quad">
+				<video
+				id="lr-video"
+				class="video-js"
+				controls
+				preload="auto"
+				width="500"
+				poster="MY_VIDEO_POSTER.jpg"
+				data-setup="{}">
+					<source src="hls/ch4/ch4.m3u8" type="application/x-mpegURL" />
+					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+				</video>
+			</div>
+		</div>
+  		<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+		<script> var player = videojs("main-video"); player.play();</script>
+	</body>
+ </html>
