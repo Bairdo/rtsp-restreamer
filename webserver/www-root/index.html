@@ -5,6 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link href="https://vjs.zencdn.net/7.8.4/video-js.css" rel="stylesheet" />
+	<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
 	<script src="jquery-3.5.1.min.js"></script>
 	<link rel="stylesheet" href="styles.css">
 
@@ -35,9 +36,9 @@
 				id = $(this).attr('id');
 				console.log(id);
 				var quadplayers = [{ "video-id": "ul-video", "div-id": "#upperleft", "channel-id": "ch1" },
-				{ "video-id": "ur-video", "div-id": "#upperright", "channel-id": "ch2" },
-				{ "video-id": "ll-video", "div-id": "#lowerleft", "channel-id": "ch3" },
-				{ "video-id": "lr-video", "div-id": "#lowerright", "channel-id": "ch4" }];
+									{ "video-id": "ur-video", "div-id": "#upperright", "channel-id": "ch2" },
+									{ "video-id": "ll-video", "div-id": "#lowerleft", "channel-id": "ch3" },
+									{ "video-id": "lr-video", "div-id": "#lowerright", "channel-id": "ch4" }];
 				if (id == "all" && channel_select_func.last_selected != "all") {
 					$("#singlebox").addClass("hide");
 					$("#quadbox").removeClass("hide");
@@ -94,13 +95,13 @@
 	<div id="singlebox"></div>
 	<!-- -------------------------------------------------------------------------------------->
 	<div id="quadbox" class="hide">
+		<section>
 		<div id="upperleft" class="quad"></div>
 		<div id="upperright" class="quad"></div>
 		<div id="lowerleft" class="quad"></div>
 		<div id="lowerright" class="quad"></div>
+		</section>
 	</div>
-	<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
-	<!-- <script> var player = videojs("main-video"); player.play(); player.muted(true);</script> -->
 </body>
 
 </html>

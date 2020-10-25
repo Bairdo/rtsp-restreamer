@@ -5,8 +5,8 @@
 	display: inline-block;
 }
 
-div:not(:last-child) {
-	margin-right:40px;
+div:not(:last-child) .channel-select {
+	margin-right:30px;
 }
 
 .active {
@@ -19,4 +19,24 @@ div:not(:last-child) {
 
 .video-js {
 	max-width: 95%;
+}
+
+@media (pointer : fine) {
+	section {
+		display: grid;
+		grid-template-columns: 1fr 1fr; /* set column sizes here */
+		grid-template-rows: auto auto; /* we want two rows */
+		
+		grid-gap: 10px; /* how far between cells? */
+		grid-auto-flow: column; /* fill in by column, not row */
+	}
+}
+
+@media (pointer : coarse) {
+	section div:not(:first-child) {
+			margin-top: 25px;
+	}
+	section {
+		margin-top: 25px;
+	}
 }
