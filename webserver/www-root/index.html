@@ -8,37 +8,69 @@
 		<link rel="stylesheet" href="styles.css">
 
 		<script type="text/javascript">
+			function createVideoElement(video_id, channel_id) {
+				return `<video
+							id="`+ video_id +`"
+							class="video-js vjs-fluid"
+							controls
+							preload="auto"
+
+							poster="MY_VIDEO_POSTER.jpg"
+							data-setup="{}">
+							<source src="hls/` + channel_id + "/" + channel_id + `.m3u8" type="application/x-mpegURL" />
+							<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+							</p>
+						</video>`;
+			}
+
 			$(document).ready(function(){
-				  $(".channel-select").on("click", function(){
+				$("#singlebox").append(createVideoElement("main-video", "ch1"));
+				var player = videojs("main-video"); player.play(); player.muted(true);
+				  $(".channel-select").on("click", function channel_select_func(){
+					  console.log("last selected:"+  channel_select_func.last_selected);
 					      $(this).addClass("active");
 					      $(this).siblings().removeClass("active");
                  			console.log($("main-video"));
 							id = $(this).attr('id');
 							console.log(id);
-							var quadplayers = [videojs("ul-video"), videojs("ur-video"),
-					                           videojs("ll-video"), videojs("lr-video")];
-							var p;
-					  		if (id == "all"){
-								console.log("hide");
+							var quadplayers = [{"video-id": "ul-video", "div-id": "#upperleft", "channel-id": "ch1"},
+											   {"video-id": "ur-video", "div-id": "#upperright", "channel-id": "ch2"},
+					                           {"video-id": "ll-video", "div-id": "#lowerleft", "channel-id": "ch3"},
+											   {"video-id": "lr-video", "div-id": "#lowerright", "channel-id": "ch4"}];
+					  		if (id == "all" && channel_select_func.last_selected != "all"){
 								$("#singlebox").addClass("hide");
 								$("#quadbox").removeClass("hide");
-								
 
-
-								for (p of quadplayers) {
-					  				p.play();
-								  }
-							} else {
-								$("#singlebox").removeClass("hide");
-								$("#quadbox").addClass("hide")
-  							  var player = videojs("main-video");
-							  player.src({src: 'hls/' + id + "/" + id + ".m3u8", type: "application/x-mpegURL"});
-							  player.play();
-								for (p of quadplayers) {
-									p.pause();
+								for (qp of quadplayers) {
+									div_id = qp["div-id"];
+									channel_id = qp["channel-id"];
+									video_id = qp["video-id"];
+									$(div_id).append(createVideoElement(video_id, channel_id));
+										var player = videojs(video_id);
+										player.play();
+										player.muted(true);
+									
 								}
+								videojs("main-video").dispose();
+							} else if (id != "all") {
+								if (channel_select_func.last_selected == "all") {
+									$("#singlebox").removeClass("hide");
+									$("#quadbox").addClass("hide");
+									var p;
+									for (p of quadplayers) {
+										videojs(p["video-id"]).dispose();
+									}
+									$("#singlebox").append(createVideoElement("main-video", id));
+								}
+								if (channel_select_func.last_selected != id) {
+									var player = videojs("main-video");
+									player.src("hls/" + id + "/" + id + ".m3u8", "application/x-mpegURL");
+									player.muted();
+									player.play();
+								}
+
 							}
-							
+							channel_select_func.last_selected = id;
 					     });
 			});
 		</script>
@@ -50,83 +82,20 @@
 			<div id="all" class="channel-select"><a href="#.">All Cameras</a></div>
 			<div id="ch1" class="channel-select active"><a href="#.">Inside Garage</a></div>
 			<div id="ch2" class="channel-select"><a href="#.">Lower Driveway</a></div>
-			<div id="ch3" class="channel-select"><a href="#.">Inside Garage</a></div>
+			<div id="ch3" class="channel-select"><a href="#.">Outside Garage</a></div>
 			<div id="ch4" class="channel-select"><a href="#.">Front Porch</a></div>
 		</div>
 
 
-		<div id="singlebox">
-			<video
-				id="main-video"
-				class="video-js"
-				controls
-				preload="auto"
-				width="1700"
-
-				poster="MY_VIDEO_POSTER.jpg"
-				data-setup="{}">
-				<source src="hls/ch1/ch1.m3u8" type="application/x-mpegURL" />
-				<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-				</p>
-			</video>
-		</div>
+		<div id="singlebox"></div>
 <!-- -------------------------------------------------------------------------------------->
 		<div id="quadbox" class="hide">
-			<div id="upperleft" class="quad">
-				<video
-				id="ul-video"
-				class="video-js"
-				controls
-				preload="auto"
-				width="500"
-				poster="MY_VIDEO_POSTER.jpg"
-				data-setup="{}">
-					<source src="hls/ch1/ch1.m3u8" type="application/x-mpegURL" />
-					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-				</video>
-			</div>
-			<div id="upperright" class="quad">
-				<video
-				id="ur-video"
-				class="video-js"
-				controls
-				preload="auto"
-				width="500"
-				poster="MY_VIDEO_POSTER.jpg"
-				data-setup="{}">
-					<source src="hls/ch2/ch2.m3u8" type="application/x-mpegURL" />
-					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-				</video>
-			</div>
-			<div id="lowerleft" class="quad">
-				<video
-				id="ll-video"
-				class="video-js"
-				controls
-				preload="auto"
-				width="500"
-
-				poster="MY_VIDEO_POSTER.jpg"
-				data-setup="{}">
-					<source src="hls/ch3/ch3.m3u8" type="application/x-mpegURL" />
-					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-				</video>
-			</div>
-			<div id="lowerright" class="quad">
-				<video
-				id="lr-video"
-				class="video-js"
-				controls
-				preload="auto"
-				width="500"
-				poster="MY_VIDEO_POSTER.jpg"
-				data-setup="{}">
-					<source src="hls/ch4/ch4.m3u8" type="application/x-mpegURL" />
-					<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-				</video>
-			</div>
+			<div id="upperleft" class="quad"></div>
+			<div id="upperright" class="quad"></div>
+			<div id="lowerleft" class="quad"></div>
+			<div id="lowerright" class="quad"></div>
 		</div>
   		<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
-		<script> var player = videojs("main-video"); player.play();</script>
+		<!-- <script> var player = videojs("main-video"); player.play(); player.muted(true);</script> -->
 	</body>
  </html>
