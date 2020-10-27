@@ -8,10 +8,13 @@ Each stream is rewrapped in a Docker container running ffmpeg.
 Set environment variables for camera streams to pull in 'restreamer/.env'
 
 ```bash
-RTSP_USERNAME=username
-RTSP_PASSWORD=SuperSecretPassword
-RTSP_IP=10.0.0.1
+RTSP_USERNAME=admin
+RTSP_PASSWORD=StencilNail1200
+RTSP_IP=192.168.1.64
 RTSP_PORT=554
+
+RTSP_URL=rtsp://${RTSP_USERNAME}:${RTSP_PASSWORD}@${RTSP_IP}:${RTSP_PORT}
+
 HTTP_PORT=8000
 ```
 
@@ -37,3 +40,4 @@ The 'command' option in docker-compose for the encoders is 2 variables: A) The a
 - Chromecast Plugin for video.js
 - Somehow stop the encoding if no one is streaming currently. (check the file access/requests on the webserver?)
 - Prettify the webpage (Allow for different screen sizes: Desktop, Phone, etc)
+- Firewall rule to only allow local network access.
